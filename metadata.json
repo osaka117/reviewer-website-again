@@ -1,0 +1,6 @@
+{
+  "name": "Cartesian Point and Transformation Trainer",
+  "description": "An interactive math learning tool to practice point positioning and transformations (translation, reflection, and rotation) on the Cartesian coordinate plane with an interactive grid.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
