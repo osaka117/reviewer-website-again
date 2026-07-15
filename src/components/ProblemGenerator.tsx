@@ -4,6 +4,23 @@ import { generateProblem } from '../utils/mathUtils';
 import { HelpCircle, CheckCircle2, XCircle, ArrowRight, RotateCcw, Award, Sparkles, Sliders } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
+const safeGetItem = (key: string): string | null => {
+  try {
+    return localStorage.getItem(key);
+  } catch (e) {
+    console.warn("localStorage is not accessible:", e);
+    return null;
+  }
+};
+
+const safeSetItem = (key: string, value: string) => {
+  try {
+    localStorage.setItem(key, value);
+  } catch (e) {
+    console.warn("localStorage is not accessible:", e);
+  }
+};
+
 interface ProblemGeneratorProps {
   onStateChange: (state: {
     preImage: Point;
@@ -45,23 +62,23 @@ export default function ProblemGenerator({
 
   // Statistics (persisted in LocalStorage)
   const [score, setScore] = useState<number>(() => {
-    const saved = localStorage.getItem('cartesian_score');
+    const saved = safeGetItem('cartesian_score');
     return saved ? parseInt(saved, 10) : 0;
   });
   const [streak, setStreak] = useState<number>(() => {
-    const saved = localStorage.getItem('cartesian_streak');
+    const saved = safeGetItem('cartesian_streak');
     return saved ? parseInt(saved, 10) : 0;
   });
   const [total, setTotal] = useState<number>(() => {
-    const saved = localStorage.getItem('cartesian_total');
+    const saved = safeGetItem('cartesian_total');
     return saved ? parseInt(saved, 10) : 0;
   });
 
   // Save stats to LocalStorage
   useEffect(() => {
-    localStorage.setItem('cartesian_score', score.toString());
-    localStorage.setItem('cartesian_streak', streak.toString());
-    localStorage.setItem('cartesian_total', total.toString());
+    safeSetItem('cartesian_score', score.toString());
+    safeSetItem('cartesian_streak', streak.toString());
+    safeSetItem('cartesian_total', total.toString());
   }, [score, streak, total]);
 
   // Load new problem
